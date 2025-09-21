@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<atlassian-plugin key="${atlassian.plugin.key}" name="${project.name}" plugins-version="2">
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${project.version}</version>
+        <vendor name="${project.organization.name}" url="${project.organization.url}"/>
+        <param name="plugin-icon">images/pluginIcon.png</param>
+        <param name="plugin-logo">images/pluginLogo.png</param>
+    </plugin-info>
+    <!-- add our i18n resource -->
+    <resource type="i18n" name="i18n" location="skeleton"/>
+    <!-- add our web resources -->
+    <web-resource key="skeleton-resources" name="skeleton Web Resources">
+        <dependency>com.atlassian.auiplugin:ajs</dependency>
+        <resource type="download" name="skeleton.css" location="/css/skeleton.css"/>
+        <resource type="download" name="skeleton.js" location="/js/skeleton.js"/>
+        <resource type="download" name="images/" location="/images"/>
+        <context>skeleton</context>
+    </web-resource>
+    <web-item name="Answers Link From Navigation" i18n-name-key="answers-link-from-navigation.name"
+              key="answers-link-from-navigation" section="system.top.navigation.bar" weight="900">
+        <description key="answers-link-from-navigation.description">The Answers Link From Navigation Plugin
+        </description>
+        <label key="answers-link-from-navigation.label"/>
+        <link linkId="answers-link-from-navigation-link">https://baidu.com</link>
+        <conditions type="AND">
+            <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition"/>
+        </conditions>
+    </web-item>
+    <web-item name="Jiradev Help Menu" i18n-name-key="jiradev-help-menu.name" key="jiradev-help-menu"
+              section="system.top.navigation.bar" weight="1000">
+        <description key="jiradev-help-menu.description">The Jiradev Help Menu Plugin</description>
+        <label key="jiradev-help-menu.label"/>
+        <link linkId="jiradev-help-menu-link">/secure/Dashboard.jspa</link>
+        <conditions type="AND">
+            <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition"/>
+        </conditions>
+    </web-item>
+    <web-section name="Internal Help Web Section" i18n-name-key="internal-help-web-section.name"
+                 key="internal-help-web-section" location="jiradev-help-menu-link" weight="1000">
+        <description key="internal-help-web-section.description">The Internal Help Web Section Plugin</description>
+        <label key="internal-help-web-section.label"/>
+    </web-section>
+    <web-item name="Company Help Link" i18n-name-key="company-help-link.name" key="company-help-link"
+              section="jiradev-help-menu-link/internal-help-web-section" weight="1000">
+        <description key="company-help-link.description">The Company Help Link Plugin</description>
+        <label key="company-help-link.label"/>
+        <link linkId="company-help-link-link">https://baidu.com</link>
+    </web-item>
+    <web-section name="External Help Web Section" i18n-name-key="external-help-web-section.name"
+                 key="external-help-web-section" location="jiradev-help-menu-link" weight="1000">
+        <description key="external-help-web-section.description">The External Help Web Section Plugin</description>
+        <label key="external-help-web-section.label"/>
+    </web-section>
+    <web-item name="Atlassian Answers Link" i18n-name-key="atlassian-answers-link.name" key="atlassian-answers-link"
+              section="jiradev-help-menu-link/external-help-web-section" weight="1000">
+        <description key="atlassian-answers-link.description">The Atlassian Answers Link Plugin</description>
+        <label key="atlassian-answers-link.label"/>
+        <link linkId="atlassian-answers-link-link">https://answers.atlassian.com/</link>
+    </web-item>
+</atlassian-plugin>

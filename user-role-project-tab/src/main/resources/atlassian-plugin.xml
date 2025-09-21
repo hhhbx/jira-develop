@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<atlassian-plugin key="${atlassian.plugin.key}" name="${project.name}" plugins-version="2"> 
+  <plugin-info> 
+    <description>${project.description}</description>  
+    <version>${project.version}</version>  
+    <vendor name="${project.organization.name}" url="${project.organization.url}"/>  
+    <param name="plugin-icon">images/pluginIcon.png</param>  
+    <param name="plugin-logo">images/pluginLogo.png</param> 
+  </plugin-info>  
+  <!-- add our i18n resource -->  
+  <resource type="i18n" name="i18n" location="user-role-project-tab"/>  
+  <!-- add our web resources -->  
+  <web-resource key="user-role-project-tab-resources" name="user-role-project-tab Web Resources"> 
+    <dependency>com.atlassian.auiplugin:ajs</dependency>  
+    <resource type="download" name="user-role-project-tab.css" location="/css/user-role-project-tab.css"/>  
+    <resource type="download" name="user-role-project-tab.js" location="/js/user-role-project-tab.js"/>  
+    <resource type="download" name="images/" location="/images"/>  
+    <context>user-role-project-tab</context> 
+  </web-resource>  
+  <project-tabpanel key="user-role-project-tab-panel" name="User Role Project Tab Panel" i18n-name-key="user-role-project-tab-panel.name" class="com.jiradev.jira.plugins.panels.project.UserRoleProjectTabPanel"> 
+    <description key="user-role-project-tab-panel.description">The User Role Project Tab Panel Plugin</description>  
+    <label key="user-role-project-tab-panel.label"/>  
+    <order>10</order>  
+    <resource type="velocity" name="view" location="templates/tabpanels/user-role-project-tab-panel.vm"/> 
+  </project-tabpanel>  
+  <issue-tabpanel key="user-role-issue-tab-panel" name="User Role Issue Tab Panel" i18n-name-key="user-role-issue-tab-panel.name" class="com.jiradev.jira.plugins.panels.issue.UserRoleIssueTabPanel"> 
+    <description key="user-role-issue-tab-panel.description">The User Role Issue Tab Panel Plugin</description>  
+    <label key="user-role-issue-tab-panel.label"></label>  
+    <order>10</order>  
+    <resource type="velocity" name="view" location="templates/tabpanels/user-role-issue-tab-panel.vm"/> 
+  </issue-tabpanel>
+</atlassian-plugin>
