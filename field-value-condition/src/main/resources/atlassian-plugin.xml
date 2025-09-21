@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<atlassian-plugin key="${atlassian.plugin.key}" name="${project.name}" plugins-version="2"> 
+  <plugin-info> 
+    <description>${project.description}</description>  
+    <version>${project.version}</version>  
+    <vendor name="${project.organization.name}" url="${project.organization.url}"/>  
+    <param name="plugin-icon">images/pluginIcon.png</param>  
+    <param name="plugin-logo">images/pluginLogo.png</param> 
+  </plugin-info>  
+  <!-- add our i18n resource -->  
+  <resource type="i18n" name="i18n" location="field-value-condition"/>  
+  <!-- add our web resources -->  
+  <web-resource key="field-value-condition-resources" name="field-value-condition Web Resources"> 
+    <dependency>com.atlassian.auiplugin:ajs</dependency>  
+    <resource type="download" name="field-value-condition.css" location="/css/field-value-condition.css"/>  
+    <resource type="download" name="field-value-condition.js" location="/js/field-value-condition.js"/>  
+    <resource type="download" name="images/" location="/images"/>  
+    <context>field-value-condition</context> 
+  </web-resource>  
+  <workflow-condition key="field-value-condition" name="Field Value Condition" i18n-name-key="field-value-condition.name" class="com.jiradev.jira.plugins.conditions.FieldValueConditionFactory"> 
+    <description key="field-value-condition.description">The Field Value Condition Plugin</description>  
+    <condition-class>com.jiradev.jira.plugins.conditions.FieldValueCondition</condition-class>  
+    <resource type="velocity" name="view" location="templates/conditions/field-value-condition.vm"/>  
+    <resource type="velocity" name="input-parameters" location="templates/conditions/field-value-condition-input.vm"/>  
+    <resource type="velocity" name="edit-parameters" location="templates/conditions/field-value-condition-input.vm"/> 
+  </workflow-condition>
+</atlassian-plugin>
