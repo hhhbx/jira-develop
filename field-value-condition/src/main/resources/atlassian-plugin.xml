@@ -24,5 +24,12 @@
     <resource type="velocity" name="view" location="templates/conditions/field-value-condition.vm"/>  
     <resource type="velocity" name="input-parameters" location="templates/conditions/field-value-condition-input.vm"/>  
     <resource type="velocity" name="edit-parameters" location="templates/conditions/field-value-condition-input.vm"/> 
-  </workflow-condition>
+  </workflow-condition>  
+  <workflow-validator key="field-value-validator" name="Field Value Validator" i18n-name-key="field-value-validator.name" class="com.jiradev.jira.plugins.validators.FieldValueValidatorFactory"> 
+    <description key="field-value-validator.description">The Field Value Validator Plugin</description>  
+    <validator-class>com.jiradev.jira.plugins.validators.FieldValueValidator</validator-class>  
+    <resource type="velocity" name="view" location="templates/validators/field-value-validator.vm"/>  
+    <resource type="velocity" name="input-parameters" location="templates/validators/field-value-validator-input.vm"/>  
+    <resource type="velocity" name="edit-parameters" location="templates/validators/field-value-validator-input.vm"/> 
+  </workflow-validator>
 </atlassian-plugin>
