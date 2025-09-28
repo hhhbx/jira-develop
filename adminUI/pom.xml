@@ -29,7 +29,11 @@
             <artifactId>javax.servlet-api</artifactId>
             <scope>provided</scope>
         </dependency>
-
+        <dependency>
+            <groupId>com.atlassian.templaterenderer</groupId>
+            <artifactId>atlassian-template-renderer-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>com.atlassian.sal</groupId>
             <artifactId>sal-api</artifactId>

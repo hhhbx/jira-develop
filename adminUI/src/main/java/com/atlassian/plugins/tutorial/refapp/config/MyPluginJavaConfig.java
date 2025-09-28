@@ -6,8 +6,10 @@ import com.atlassian.plugins.osgi.javaconfig.configs.beans.ModuleFactoryBean;
 import com.atlassian.plugins.osgi.javaconfig.configs.beans.PluginAccessorBean;
 import com.atlassian.sal.api.ApplicationProperties;
 import com.atlassian.sal.api.auth.LoginUriProvider;
+import com.atlassian.sal.api.pluginsettings.PluginSettingsFactory;
 import com.atlassian.sal.api.user.UserManager;
 import com.atlassian.sal.api.websudo.WebSudoManager;
+import com.atlassian.templaterenderer.TemplateRenderer;
 import org.osgi.framework.ServiceRegistration;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.context.annotation.Bean;
@@ -45,6 +47,15 @@ public class MyPluginJavaConfig {
     @Bean
     public WebSudoManager webSudoManager() {
         return importOsgiService(WebSudoManager.class);
+    }
+    @Bean
+    public TemplateRenderer templateRenderer() {
+        return importOsgiService(TemplateRenderer.class);
+    }
+
+    @Bean
+    public PluginSettingsFactory pluginSettingsFactory() {
+        return importOsgiService(PluginSettingsFactory.class);
     }
 
     @Bean
