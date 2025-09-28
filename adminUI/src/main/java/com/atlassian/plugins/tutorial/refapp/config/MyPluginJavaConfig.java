@@ -5,6 +5,9 @@ import com.atlassian.plugins.tutorial.refapp.impl.MyPluginComponentImpl;
 import com.atlassian.plugins.osgi.javaconfig.configs.beans.ModuleFactoryBean;
 import com.atlassian.plugins.osgi.javaconfig.configs.beans.PluginAccessorBean;
 import com.atlassian.sal.api.ApplicationProperties;
+import com.atlassian.sal.api.auth.LoginUriProvider;
+import com.atlassian.sal.api.user.UserManager;
+import com.atlassian.sal.api.websudo.WebSudoManager;
 import org.osgi.framework.ServiceRegistration;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.context.annotation.Bean;
@@ -26,6 +29,22 @@ public class MyPluginJavaConfig {
     @Bean
     public ApplicationProperties applicationProperties() {
         return importOsgiService(ApplicationProperties.class);
+    }
+
+    // imports SAL API components from OSGi
+    @Bean
+    public UserManager userManager() {
+        return importOsgiService(UserManager.class);
+    }
+
+    @Bean
+    public LoginUriProvider loginUriProvider() {
+        return importOsgiService(LoginUriProvider.class);
+    }
+
+    @Bean
+    public WebSudoManager webSudoManager() {
+        return importOsgiService(WebSudoManager.class);
     }
 
     @Bean
