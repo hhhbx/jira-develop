@@ -3,6 +3,7 @@ package io.codeclou.kitchen.duty.rest;
 import com.atlassian.activeobjects.external.ActiveObjects;
 import com.atlassian.plugins.rest.common.security.AnonymousAllowed;
 import com.atlassian.sal.api.transaction.TransactionCallback;
+import io.codeclou.kitchen.duty.ao.KitchenDutyActiveObjectHelper;
 import io.codeclou.kitchen.duty.ao.User;
 import io.codeclou.kitchen.duty.ao.UserToWeek;
 import io.codeclou.kitchen.duty.ao.Week;
@@ -11,10 +12,7 @@ import net.java.ao.Query;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
@@ -127,5 +125,124 @@ public class KitchenDutyPlanningResource {
             }
         }
         return Response.ok(weeks).build();
+    }
+
+    /**
+     * Add the User to the Week
+     *
+     * @param weekNumber
+     * @return
+     */
+    @PUT
+    @Path("/week/{weekNumber}/users")
+    @Produces({MediaType.APPLICATION_JSON})
+    @AnonymousAllowed
+    public Response addUserToWeek(@PathParam("weekNumber") final Integer weekNumber,
+                                  final KitchenDutyPlanningResourceUserModel userParam) {
+        activeObjects.executeInTransaction(new TransactionCallback<Void>() {
+            @Override
+            public Void doInTransaction() {
+                //
+                // WEEK
+                //
+                Week week = KitchenDutyActiveObjectHelper.findUniqueWeek(
+                    activeObjects,
+                    weekNumber
+                );
+                if (week == null) {
+                    week = activeObjects.create(
+                        Week.class,
+                        new DBParam("WEEK", weekNumber)
+                    );
+                    week.save();
+                }
+
+                //
+                // USER
+                //
+                User user = KitchenDutyActiveObjectHelper.findUniqueUser(
+                    activeObjects,
+                    userParam.getUsername()
+                );
+                if (user == null) {
+                    user = activeObjects.create(
+                        User.class,
+                        new DBParam("NAME", userParam.getUsername())
+                    );
+                    user.save();
+                }
+
+                //
+                // Establish ManyToMany Relationship
+                //
+                UserToWeek relationship = KitchenDutyActiveObjectHelper
+                    .findRelationship(activeObjects, user, week);
+                if (relationship != null) {
+                    // relation already exists
+                    return null;
+                }
+                relationship = activeObjects.create(UserToWeek.class);
+                relationship.setUser(user);
+                relationship.setWeek(week);
+                relationship.save();
+
+                return null;
+            }
+        });
+        return Response.ok().build();
+    }
+
+    /**
+     * Remove the User from Week
+     *
+     * @param weekNumber
+     * @return
+     */
+    @DELETE
+    @Path("/week/{weekNumber}/users")
+    @Produces({MediaType.APPLICATION_JSON})
+    @AnonymousAllowed
+    public Response deleteUserFomWeek(@PathParam("weekNumber") final Integer weekNumber,
+                                      final KitchenDutyPlanningResourceUserModel userParam) {
+        activeObjects.executeInTransaction(new TransactionCallback<Void>() {
+            @Override
+            public Void doInTransaction() {
+                //
+                // WEEK
+                //
+                Week week = KitchenDutyActiveObjectHelper.findUniqueWeek(
+                    activeObjects,
+                    weekNumber
+                );
+                if (week == null) {
+                    // week does not exist => no relation to delete
+                    return null;
+                }
+
+                //
+                // USER
+                //
+                User user = KitchenDutyActiveObjectHelper.findUniqueUser(
+                    activeObjects,
+                    userParam.getUsername()
+                );
+                if (user == null) {
+                    // user does not exist => no relation to delete
+                    return null;
+                }
+
+                //
+                // Delete ManyToMany Relationship
+                //
+                UserToWeek relationship = KitchenDutyActiveObjectHelper
+                    .findRelationship(activeObjects, user, week);
+                if (relationship != null) {
+                    activeObjects.delete(relationship);
+                }
+
+                return null;
+            }
+        });
+        return Response.ok().build();
     }
 }
