@@ -12,7 +12,7 @@ public class KitchenDutyPlanningWebworkAction extends JiraWebActionSupport {
     @Override
     @SupportedMethods(RequestMethod.GET)
     public String doDefault() {      // 处理 GET
-        return INPUT;                // 需要在 xml 里有 <view name="input">...</view>
+        return SUCCESS;                // 需要在 xml 里有 <view name="success">...</view>
     }
     @Override
     @SupportedMethods(RequestMethod.POST)
