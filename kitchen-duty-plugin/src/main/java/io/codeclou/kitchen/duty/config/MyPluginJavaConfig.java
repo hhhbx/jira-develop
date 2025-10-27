@@ -1,6 +1,7 @@
 package io.codeclou.kitchen.duty.config;
 
 import com.atlassian.jira.bc.user.search.UserSearchService;
+import com.atlassian.webresource.api.assembler.PageBuilderService;
 import io.codeclou.kitchen.duty.api.MyPluginComponent;
 import io.codeclou.kitchen.duty.impl.MyPluginComponentImpl;
 import com.atlassian.plugins.osgi.javaconfig.configs.beans.ModuleFactoryBean;
@@ -35,8 +36,13 @@ public class MyPluginJavaConfig {
     }
 
     @Bean
-    public MyPluginComponent myPluginComponent(ApplicationProperties applicationProperties, UserSearchService userSearchService) {
-        return new MyPluginComponentImpl(applicationProperties, userSearchService);
+    public PageBuilderService pageBuilderService() {
+        return importOsgiService(PageBuilderService.class);
+    }
+
+    @Bean
+    public MyPluginComponent myPluginComponent(ApplicationProperties applicationProperties, UserSearchService userSearchService,PageBuilderService pageBuilderService) {
+        return new MyPluginComponentImpl(applicationProperties, userSearchService, pageBuilderService);
     }
 
     // Exports MyPluginComponent as an OSGi service
