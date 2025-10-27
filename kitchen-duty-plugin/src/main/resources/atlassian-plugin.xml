@@ -59,4 +59,10 @@
         <description key="kitchen-duty-plugin.rest.resources.description">All Kitchen Duty REST Resources</description>
         <package>io.codeclou.kitchen.duty.rest</package>
     </rest>
+    <ao key="ao-module">
+        <description>The module configuring the Active Objects service used by this plugin</description>
+        <entity>io.codeclou.kitchen.duty.ao.Week</entity>
+        <entity>io.codeclou.kitchen.duty.ao.User</entity>
+        <entity>io.codeclou.kitchen.duty.ao.UserToWeek</entity>
+    </ao>
 </atlassian-plugin>
