@@ -15,6 +15,7 @@
         <dependency>com.atlassian.auiplugin:ajs</dependency>
         <dependency>com.atlassian.auiplugin:aui-select2</dependency>
         <dependency>com.atlassian.auiplugin:aui-experimental-soy-templates</dependency>
+        <dependency>com.atlassian.auiplugin:aui-date-picker</dependency>
         <transformation extension="soy">
             <transformer key="soyTransformer">
                 <functions>com.atlassian.confluence.plugins.soy:soy-core-functions</functions>
@@ -27,6 +28,8 @@
         <resource type="download" name="kitchen-duty-planning-soy.js"
                   location="templates-soy/kitchen-duty-planning.soy"/>
         <resource type="download" name="images/" location="/images"/>
+        <resource type="download" name="momentjs.js"
+                  location="/js/3rdparty/moment-2.22.2.min.js"/>
         <context>kitchen-duty-plugin</context>
     </web-resource>
     <web-section key="admin_kitchen_duty_planning_section" name="admin_kitchen_duty_planning_section"

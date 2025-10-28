@@ -1,7 +1,11 @@
 package io.codeclou.kitchen.duty.ao;
 
 import com.atlassian.activeobjects.external.ActiveObjects;
+import com.atlassian.sal.api.transaction.TransactionCallback;
 import net.java.ao.Query;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class KitchenDutyActiveObjectHelper {
 
@@ -27,5 +31,48 @@ public class KitchenDutyActiveObjectHelper {
             return relationships[0];
         }
         return null;
+    }
+
+    public static UserToWeek[] findAllRelationships(ActiveObjects activeObjects, Week week) {
+        UserToWeek[] relationships = activeObjects.find(UserToWeek.class, Query.select().where("WEEK_ID = ?", week.getID()));
+        if ((relationships != null && relationships.length > 0)) {
+            return relationships;
+        }
+        return null;
+    }
+
+    //
+    // TRANSACTIONAL
+    //
+
+    public static Week getWeekByWeekNumberInTransaction(ActiveObjects activeObjects, Long weekNumber) {
+        return activeObjects.executeInTransaction(new TransactionCallback<Week>() {
+            @Override
+            public Week doInTransaction() {
+                Week[] weeks = activeObjects.find(Week.class, Query.select().where("WEEK = ?", weekNumber));
+                if (weeks != null && weeks.length > 0) {
+                    return weeks[0];
+                }
+                return null;
+            }
+        });
+    }
+
+    public static List<User> getUsersAssignedToWeekInTransaction(ActiveObjects activeObjects, Week week) {
+        List<User> users = new ArrayList<>();
+        if (week != null) {
+            UserToWeek[] relationships = activeObjects.executeInTransaction(new TransactionCallback<UserToWeek[]>() {
+                @Override
+                public UserToWeek[] doInTransaction() {
+                    return KitchenDutyActiveObjectHelper.findAllRelationships(activeObjects, week);
+                }
+            });
+            if (relationships != null) {
+                for (UserToWeek userToWeek : relationships) {
+                    users.add(userToWeek.getUser());
+                }
+            }
+        }
+        return users;
     }
 }

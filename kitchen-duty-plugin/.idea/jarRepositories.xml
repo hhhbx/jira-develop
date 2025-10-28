@@ -62,6 +62,11 @@
       <option name="url" value="https://repository.sonatype.org/content/repositories/forge/" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="atlassian-public" />
+      <option name="name" value="atlassian-public" />
+      <option name="url" value="https://packages.atlassian.com/maven-public/" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="gradle-plugins" />
       <option name="name" value="Gragle Plugins" />
       <option name="url" value="https://plugins.gradle.org/m2/" />
