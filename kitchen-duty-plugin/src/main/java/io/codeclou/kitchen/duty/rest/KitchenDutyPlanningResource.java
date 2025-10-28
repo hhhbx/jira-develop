@@ -20,7 +20,7 @@ import java.util.List;
 
 @Named
 @Path("/planning")
-public class KitchenDutyPlanningResource {
+public class KitchenDutyPlanningResource extends BaseResource {
 
     private final ActiveObjects activeObjects;
 
@@ -79,6 +79,14 @@ public class KitchenDutyPlanningResource {
     @Produces({MediaType.APPLICATION_JSON})
     @AnonymousAllowed
     public Response getUsersForWeek(@PathParam("weekNumber") final Integer weekNumber) {
+        // AUTHENTICATION
+        if (!this.isUserLoggedIn()) {
+            return getUnauthorizedErrorResponse();
+        }
+        // AUTHORIZATION
+        if (this.isUserNotAdmin()) {
+            return getForbiddenErrorResponse();
+        }
         // BUSINESS LOGIC
         Week week = activeObjects.executeInTransaction(new TransactionCallback<Week>() {
             @Override
@@ -118,6 +126,14 @@ public class KitchenDutyPlanningResource {
     @Produces({MediaType.APPLICATION_JSON})
     @AnonymousAllowed
     public Response getWeeksForUser(@PathParam("username") final String username) {
+        // AUTHENTICATION
+        if (!this.isUserLoggedIn()) {
+            return getUnauthorizedErrorResponse();
+        }
+        // AUTHORIZATION
+        if (this.isUserNotAdmin()) {
+            return getForbiddenErrorResponse();
+        }
         User[] users = activeObjects.executeInTransaction(new TransactionCallback<User[]>() {
             @Override
             public User[] doInTransaction() {
@@ -145,6 +161,14 @@ public class KitchenDutyPlanningResource {
     @AnonymousAllowed
     public Response addUserToWeek(@PathParam("weekNumber") final Integer weekNumber,
                                   final List<KitchenDutyPlanningResourceUserModel>  userParams) {
+        // AUTHENTICATION
+        if (!this.isUserLoggedIn()) {
+            return getUnauthorizedErrorResponse();
+        }
+        // AUTHORIZATION
+        if (this.isUserNotAdmin()) {
+            return getForbiddenErrorResponse();
+        }
         // BUSINESS LOGIC
         activeObjects.executeInTransaction(new TransactionCallback<Void>() {
             @Override
@@ -211,7 +235,16 @@ public class KitchenDutyPlanningResource {
     @AnonymousAllowed
     public Response deleteUserFomWeek(@PathParam("weekNumber") final Integer weekNumber,
                                       final KitchenDutyPlanningResourceUserModel userParam) {
+        // AUTHENTICATION
+        if (!this.isUserLoggedIn()) {
+            return getUnauthorizedErrorResponse();
+        }
+        // AUTHORIZATION
+        if (this.isUserNotAdmin()) {
+            return getForbiddenErrorResponse();
+        }
         activeObjects.executeInTransaction(new TransactionCallback<Void>() {
+
             @Override
             public Void doInTransaction() {
                 //

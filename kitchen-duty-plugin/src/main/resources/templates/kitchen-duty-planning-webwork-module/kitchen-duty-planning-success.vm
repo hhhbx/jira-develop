@@ -2,6 +2,7 @@
 <head>
     <title>$i18n.getText("kitchen-duty-plugin.admin.planning.page.title")</title>
     <meta name="decorator" content="atl.admin">
+    <meta name="admin.active.tab" content="admin_kitchen_duty_planning_webitem_link" />
 </head>
 <body>
 <h1>$i18n.getText("kitchen-duty-plugin.admin.planning.page.headline")</h1>

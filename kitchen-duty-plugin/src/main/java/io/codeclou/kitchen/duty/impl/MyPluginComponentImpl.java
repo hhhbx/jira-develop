@@ -3,6 +3,7 @@ package io.codeclou.kitchen.duty.impl;
 import com.atlassian.activeobjects.external.ActiveObjects;
 import com.atlassian.jira.bc.user.search.UserSearchService;
 import com.atlassian.sal.api.ApplicationProperties;
+import com.atlassian.sal.api.user.UserManager;
 import com.atlassian.webresource.api.assembler.PageBuilderService;
 import io.codeclou.kitchen.duty.api.MyPluginComponent;
 
@@ -14,12 +15,14 @@ public class MyPluginComponentImpl implements MyPluginComponent {
     private final UserSearchService userSearchService;
     private final PageBuilderService pageBuilderService;
     private final ActiveObjects activeObjects;
+    private final UserManager userManager;
 
-    public MyPluginComponentImpl(final ApplicationProperties applicationProperties, final UserSearchService userSearchService, final PageBuilderService pageBuilderService, final ActiveObjects activeObjects) {
+    public MyPluginComponentImpl(final ApplicationProperties applicationProperties, final UserSearchService userSearchService, final PageBuilderService pageBuilderService, final ActiveObjects activeObjects, final UserManager userManager) {
         this.userSearchService = userSearchService;
         this.applicationProperties = applicationProperties;
         this.pageBuilderService = pageBuilderService;
         this.activeObjects = activeObjects;
+        this.userManager = userManager;
     }
 
     public String getName() {
